@@ -84,13 +84,8 @@ function App() {
               />
             </p>
             <button
-              type="submit"
-              style={{
-                cursor: "pointer",
-                backgroundColor: "green",
-                color: "white",
-                border: "none",
-              }}
+              type="submit" 
+              className="resultat"
             >
               Calculer
             </button>
