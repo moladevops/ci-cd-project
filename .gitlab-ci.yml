@@ -1,12 +1,10 @@
 
-check:
-  stage: .pre
-  script:
-    - ls -al
-clean:
-  stage: .post
-  script:
-    - rm -rf *
+stages:
+ - build
+ - test
+ - package
+ - deploy
+
 build:
   stage: build
   script:
@@ -17,12 +15,12 @@ test:
     - echo "test"
 
 package:
-  stage: build
+  stage: package
   script:
     - echo "test"
 
 build image:
-  stage: build
+  stage: package
   script:
     - echo "test"
 
