@@ -1,4 +1,18 @@
-check:
+build:
   script:
-    - pwd
-    - ls -al
+    - echo "build"
+test:
+  script:
+    - echo "test"
+
+package:
+  script:
+    - echo "test"
+
+build image:
+  script:
+    - echo "test"
+
+deploy:
+  script:
+    - echo "test"
