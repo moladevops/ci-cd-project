@@ -7,6 +7,7 @@ stages:
 
 build:
   stage: build
+  image: node:21
   script:
     - npm install
     - npm run build
