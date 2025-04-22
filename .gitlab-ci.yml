@@ -33,6 +33,7 @@ build image:
     - docker:28.1.1-dind
   script:
     - docker build -t simachille/front-imc:latest .
+  after_script:
     - docker images
 
 deploy:
