@@ -7,10 +7,13 @@ stages:
 
 build:
   stage: build
-  script:
+  before_script:
     - npm ci
     - ls -al
+  script:
+    - ls -al
     - npm run build
+    - ls -al
 
 test:
   stage: test
