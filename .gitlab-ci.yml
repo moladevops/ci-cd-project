@@ -9,11 +9,11 @@ build:
   stage: build
   before_script:
     - npm ci
-    - ls -al
   script:
-    - ls -al
     - npm run build
-    - ls -al
+  after_script:
+    - ls -al 
+    - ls -al dist
 
 test:
   stage: test
