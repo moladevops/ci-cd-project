@@ -8,7 +8,9 @@ stages:
 install:
   stage: build
   script:
+    - ls -al
     - npm ci
+    - ls -al
 
 build:
   stage: build
