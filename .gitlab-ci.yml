@@ -5,18 +5,10 @@ stages:
  - package
  - deploy
 
-install:
-  stage: build
-  script:
-    - npm ci
-  artifacts:
-    paths:
-      - node_modules/
-    expire_in: "30 days"
-
 build:
   stage: build
   script:
+    - npm ci
     - ls -al
   needs:
     - install
