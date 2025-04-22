@@ -27,7 +27,10 @@ package:
     - ls -al
 
 build image:
+  image: docker:28.1.1
   stage: package
+  services:
+    - docker:28.1.1-dind
   script:
     - docker build -t simachille/front-imc:latest .
 
