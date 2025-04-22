@@ -8,9 +8,11 @@ stages:
 install:
   stage: build
   script:
-    - ls -al
     - npm ci
-    - ls -al
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: "30 days"
 
 build:
   stage: build
