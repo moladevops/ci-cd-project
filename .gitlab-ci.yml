@@ -10,8 +10,7 @@ build:
   script:
     - npm ci
     - ls -al
-  needs:
-    - install
+    - npm run build
 
 test:
   stage: test
