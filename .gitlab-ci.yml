@@ -11,9 +11,10 @@ build:
     - npm ci
   script:
     - npm run build
-  after_script:
-    - ls -al 
-    - ls -al dist
+  artifacts:
+    paths:
+      - dist
+    expire_in: "30 days"
 
 test:
   stage: test
