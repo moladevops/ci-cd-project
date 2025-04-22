@@ -4,6 +4,11 @@ stages:
  - package
  - deploy
 
+install:
+  stage: build
+  script:
+    - npm ci
+
 build:
   stage: build
   script:
