@@ -29,7 +29,7 @@ package:
 build image:
   stage: package
   script:
-    - ls -al
+    - docker build -t simachille/front-imc:latest .
 
 deploy:
   stage: deploy
