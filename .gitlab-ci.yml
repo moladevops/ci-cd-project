@@ -1,6 +1,7 @@
 image: node:20
 variables:
-  PROJECT_GROUP: applications/ams-imc
+  PROJECT_LOCATION: /opt/applications/ams-imc
+  PROJECT_GROUP: simachille
   PROJECT_NAME: front-imc
   PROJECT_VERSION: latest
 
@@ -51,10 +52,12 @@ build image:
 deploy:
   stage: deploy
   before_script:
-    - chmod 400
+    - chmod 400 $PROD_SERVER_SSH_KEY
   script:
     - |
-        ssh -p $PROD_SERVER_SSH_SSH_PORT 
-            -i $PROD_SERVER_SSH_KEY 
-            -o StrictHostKeyChecking=no
-            mkdir -p /opt/$PROJECT_GROUP
+        ssh 
+         -o StrickHostKeyCheking=no 
+         -i $PROD_SERVER_SSH_KEY 
+         -p $PROD_SERVER_SSH_PORT 
+         $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS 
+         "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
