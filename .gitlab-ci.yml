@@ -6,15 +6,11 @@ variables:
   PROJECT_VERSION: latest
 
 stages:
+ - deploy
  - build
  - test
  - package
- - deploy
 
-debug:
-  stage: .pre
-  script:
-     - env
 build:
   stage: build
   before_script:
@@ -55,9 +51,9 @@ deploy:
     - chmod 400 $PROD_SERVER_SSH_KEY
   script:
     - |
-        ssh 
-         -o StrickHostKeyCheking=no 
-         -i $PROD_SERVER_SSH_KEY 
-         -p $PROD_SERVER_SSH_PORT 
-         $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS 
+        ssh \ 
+         -o StrickHostKeyCheking=no \ 
+         -i $PROD_SERVER_SSH_KEY  \ 
+         -p $PROD_SERVER_SSH_PORT  \ 
+         $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS \ 
          "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
