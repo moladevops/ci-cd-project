@@ -1,0 +1,12 @@
+services:
+  front-imc:
+    image: front-imc:latest
+    container_name: front-imc
+    ports:
+      - 3001:80
+    networks:
+      - imc-network
+networks:
+  imc-network:
+    name: imc-network
+    external: true
