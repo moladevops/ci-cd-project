@@ -2,7 +2,7 @@ image: node:20
 variables:
   PROJECT_LOCATION: /opt/applications/ams-imc
   PROJECT_GROUP: simachille
-  PROJECT_NAME: front-imc
+  PROJECT_NETWORK: imc-network
   PROJECT_VERSION: latest
 
 stages:
@@ -51,4 +51,8 @@ deploy:
     - chmod 400 $PROD_SERVER_SSH_KEY
   script:
     - |
-        ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
+        ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "
+          mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
+    - |
+        ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS 
+        "docker network inspect $PROJECT_NETWORK > /dev/null 2&1 || docker network create $PROJECT_NETWORK"
