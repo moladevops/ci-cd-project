@@ -1,6 +1,6 @@
 image: node:20
 variables:
-  PROJET_GROUP: simachille
+  PROJECT_GROUP: simachille
   PROJECT_NAME: front-imc
   PROJECT_VERSION: latest
 debug:
@@ -39,8 +39,11 @@ build image:
   stage: package
   services:
     - docker:28.1.1-dind
+  before_script:
+    - docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
   script:
-    - docker build -t $PROJET_GROUP/$PROJECT_NAME:$PROJECT_VERSION .
+    - docker build -t $REGISTRY_USERNAME/$PROJECT_NAME:$PROJECT_VERSION .
+    - docker push $REGISTRY_USERNAME/$PROJECT_NAME:$PROJECT_VERSION
   after_script:
     - docker images
 
