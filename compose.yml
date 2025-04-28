@@ -1,6 +1,6 @@
 services:
   front-imc:
-    image: front-imc:latest
+    image: simachille/front-imc:latest
     container_name: front-imc
     ports:
       - 3001:80
