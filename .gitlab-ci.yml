@@ -1,4 +1,12 @@
 image: node:20
+variables:
+  PROJET_GROUP: simachille
+  PROJECT_NAME: front-imc
+  PROJECT_VERSION: latest
+debug:
+  stage: .pre
+  script:
+     - env
 stages:
  - build
  - test
@@ -27,10 +35,6 @@ package:
     - ls -al
 
 build image:
-  variables:
-    PROJET_GROUP: simachille
-    PROJECT_NAME: front-imc
-    PROJECT_VERSION: latest
   image: docker:28.1.1
   stage: package
   services:
