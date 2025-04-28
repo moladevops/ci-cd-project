@@ -27,12 +27,16 @@ package:
     - ls -al
 
 build image:
+  variables:
+    PROJET_GROUP: simachille
+    PROJECT_NAME: front-imc
+    PROJECT_VERSION: latest
   image: docker:28.1.1
   stage: package
   services:
     - docker:28.1.1-dind
   script:
-    - docker build -t simachille/front-imc:latest .
+    - docker build -t $PROJET_GROUP/$PROJECT_NAME:$PROJECT_VERSION .
   after_script:
     - docker images
 
