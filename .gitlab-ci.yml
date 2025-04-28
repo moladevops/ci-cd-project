@@ -1,18 +1,19 @@
 image: node:20
 variables:
-  PROJECT_GROUP: simachille
+  PROJECT_GROUP: applications/ams-imc
   PROJECT_NAME: front-imc
   PROJECT_VERSION: latest
-debug:
-  stage: .pre
-  script:
-     - env
+
 stages:
  - build
  - test
  - package
  - deploy
 
+debug:
+  stage: .pre
+  script:
+     - env
 build:
   stage: build
   before_script:
@@ -49,5 +50,11 @@ build image:
 
 deploy:
   stage: deploy
+  before_script:
+    - chmod 400
   script:
-    - ls -al
+    - |
+        ssh -p $PROD_SERVER_SSH_SSH_PORT 
+            -i $PROD_SERVER_SSH_KEY 
+            -o StrictHostKeyChecking=no
+            mkdir -p /opt/$PROJECT_GROUP
