@@ -59,7 +59,5 @@ deploy:
     - | 
         ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS 
         "
-        docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml down 
-        && 
-        docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml up -d
+        docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml down  && docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml up -d
         "
