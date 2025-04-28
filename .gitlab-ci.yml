@@ -49,6 +49,6 @@ build image:
 deploy:
   stage: deploy
   before_script:
-        - chmod 400 $PROD_SERVER_SSH_KEY
+    -  chmod 400 $PROD_SERVER_SSH_KEY
   script:
-    - ls -al
+    - ssh -o StrickHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
