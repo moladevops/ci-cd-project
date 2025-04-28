@@ -3,6 +3,7 @@ variables:
   PROJECT_LOCATION: /opt/applications/ams-imc
   PROJECT_GROUP: simachille
   PROJECT_NETWORK: imc-network
+  PROJECT_NAME: front-imc
   PROJECT_VERSION: latest
 
 stages:
