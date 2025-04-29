@@ -5,6 +5,7 @@ variables:
   PROJECT_NETWORK: imc-network
   PROJECT_NAME: front-imc
   PROJECT_VERSION: latest
+  ENVIRONMENT: prod
 
 stages:
  - build
@@ -17,7 +18,9 @@ debug:
   script:
     - env
   rules:
-    - if: $DEBUG
+    - if: "$DEBUG == true"
+      when: on_success
+    - when: never
 
 build:
   stage: build
@@ -53,7 +56,7 @@ build image:
   after_script:
     - docker images
 
-deploy:
+deploy dev:
   stage: deploy
   before_script:
     -  chmod 400 $PROD_SERVER_SSH_KEY
@@ -63,4 +66,20 @@ deploy:
     - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker network inspect $PROJECT_NETWORK > /dev/null 2>&1 || docker network create $PROJECT_NETWORK"
     - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml down && docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml up -d"
   rules:
-    - if: $ENVIRONMENT
+    - if: "$ENVIRONMENT == 'development' || $ENVIRONMENT == 'dev'"
+      when: on_success
+    - when: never
+
+deploy prod:
+  stage: deploy
+  before_script:
+    -  chmod 400 $PROD_SERVER_SSH_KEY
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
+    - scp -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -P $PROD_SERVER_SSH_PORT compose.yml $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS:$PROJECT_LOCATION/$PROJECT_NAME/compose.yml
+    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker network inspect $PROJECT_NETWORK > /dev/null 2>&1 || docker network create $PROJECT_NETWORK"
+    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml down && docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml up -d"
+  rules:
+    - if: "$ENVIRONMENT == 'production' || $ENVIRONMENT == 'prod'"
+      when: manual
+    - when: never
