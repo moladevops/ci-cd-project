@@ -56,13 +56,14 @@ build image:
   after_script:
     - docker images
 
-.setup-ssh: &ssh
+.setup-ssh:
   before_script:
     -  chmod 400 $PROD_SERVER_SSH_KEY
   
 deploy dev:
   stage: deploy
-  <<: *ssh
+  before_script:
+  - !reference ['.setup-ssh', before_script]
   script:
     - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
     - scp -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -P $PROD_SERVER_SSH_PORT compose.yml $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS:$PROJECT_LOCATION/$PROJECT_NAME/compose.yml
@@ -71,11 +72,12 @@ deploy dev:
   rules:
     - if: "$ENVIRONMENT == 'development' || $ENVIRONMENT == 'dev'"
       when: on_success
-    - when: never
+    - when: always
 
 deploy prod:
   stage: deploy
-  <<: *ssh
+  before_script:
+  - !reference ['.setup-ssh', before_script]
   script:
     - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
     - scp -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -P $PROD_SERVER_SSH_PORT compose.yml $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS:$PROJECT_LOCATION/$PROJECT_NAME/compose.yml
