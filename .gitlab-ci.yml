@@ -16,7 +16,7 @@ debug:
   stage: .pre
   script:
     - env
-  only:
+  except:
     - main
 
 build:
