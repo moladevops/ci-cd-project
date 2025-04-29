@@ -80,6 +80,6 @@ deploy prod:
     - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker network inspect $PROJECT_NETWORK > /dev/null 2>&1 || docker network create $PROJECT_NETWORK"
     - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml down && docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml up -d"
   rules:
-    - if: "$ENVIRONMENT == 'production' || $ENVIRONMENT == 'prod'"
+    - if: "$CI_COMMIT_BRANCH == 'main' && ($ENVIRONMENT == 'production' || $ENVIRONMENT == 'prod')"
       when: manual
     - when: never
