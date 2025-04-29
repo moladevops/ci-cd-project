@@ -7,10 +7,10 @@ variables:
   PROJECT_VERSION: latest
 
 stages:
- - deploy
  - build
  - test
  - package
+ - deploy
 
 build:
   stage: build
@@ -23,12 +23,12 @@ build:
       - dist
     expire_in: "30 days"
 
-test:
+.test:
   stage: test
   script:
     - ls -al
 
-package:
+.package:
   stage: package
   script:
     - ls -al
