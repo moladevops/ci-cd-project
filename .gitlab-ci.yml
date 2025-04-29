@@ -12,6 +12,13 @@ stages:
  - package 
  - deploy
 
+debug:
+  stage: .pre
+  script:
+    - env
+  only:
+    - main
+
 build:
   stage: build
   before_script:
