@@ -72,7 +72,7 @@ deploy dev:
   rules:
     - if: "$ENVIRONMENT == 'development' || $ENVIRONMENT == 'dev'"
       when: on_success
-    - when: always
+    - when: never
 
 deploy prod:
   stage: deploy
