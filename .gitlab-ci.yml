@@ -5,6 +5,8 @@ include:
       - jobs/.variables.yml
       - jobs/.actions.yml
       - jobs/.images.yml
+variables:
+  PROJECT_TYPE: node
 build-front:
   extends: .default-node
   stage: build
