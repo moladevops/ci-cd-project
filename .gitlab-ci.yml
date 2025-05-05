@@ -1,15 +1,22 @@
-image: node:20
+
 include:
   - project: bootcamp-devops7241002/pipelines/shared
     file:
       - jobs/.variables.yml
       - jobs/.actions.yml
-build:
+      - jobs/.images.yml
+build-front:
+  extends: .default-node
   stage: build
   before_script:
     - npm ci
   script:
     - npm run build
+  rules:
+    - if: "$PROJECT_TYPE == 'node'"
+      when: always
+    - when: never
+
   artifacts:
     paths:
       - dist
