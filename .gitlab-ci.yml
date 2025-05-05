@@ -1,5 +1,5 @@
 include:
-  - project: bootcamp-devops7241002/pipelines/shared
+  - project: bootcamp-devops/pipelines/shared
     file:
       - jobs/.variables.yml
 debug:
