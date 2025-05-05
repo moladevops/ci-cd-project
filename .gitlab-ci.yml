@@ -2,6 +2,7 @@ include:
   - project: bootcamp-devops/pipelines/shared
     file:
       - jobs/.variables.yml
+
 debug:
   stage: .pre
   script:
