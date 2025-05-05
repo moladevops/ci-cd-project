@@ -1,81 +1,8 @@
 
 include:
-  - project: bootcamp-devops7241002/pipelines/shared
+  - project: bootcamp-devops7241002/pipelines/integration
     file:
-      - jobs/.variables.yml
-      - jobs/.actions.yml
-      - jobs/.images.yml
+      - jobs/.run.yml
 variables:
-  PROJECT_TYPE: node
-build-front:
-  extends: .default-node
-  stage: build
-  before_script:
-    - npm ci
-  script:
-    - npm run build
-  rules:
-    - if: "$PROJECT_TYPE == 'node'"
-      when: always
-    - when: never
-
-  artifacts:
-    paths:
-      - dist
-    expire_in: "30 days"
-
-.test:
-  stage: test
-  script:
-    - ls -al
-
-.package:
-  stage: package
-  script:
-    - ls -al
-
-build image:
-  image: docker:28.1.1
-  stage: package
-  services:
-    - docker:28.1.1-dind
-  before_script:
-    - docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
-  script:
-    - docker build -t $REGISTRY_USERNAME/$PROJECT_NAME:$PROJECT_VERSION .
-    - docker push $REGISTRY_USERNAME/$PROJECT_NAME:$PROJECT_VERSION
-  after_script:
-    - docker images
-
-.setup-ssh:
-  before_script:
-    -  chmod 400 $PROD_SERVER_SSH_KEY
-  
-deploy dev:
-  stage: deploy
-  before_script:
-  - !reference [.setup-ssh, before_script]
-  script:
-    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
-    - scp -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -P $PROD_SERVER_SSH_PORT compose.yml $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS:$PROJECT_LOCATION/$PROJECT_NAME/compose.yml
-    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker network inspect $PROJECT_NETWORK > /dev/null 2>&1 || docker network create $PROJECT_NETWORK"
-    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml down && docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml up -d"
-  rules:
-    - if: "$ENVIRONMENT == 'development' || $ENVIRONMENT == 'dev'"
-      when: on_success
-    - when: never
-
-deploy prod:
-  stage: deploy
-  before_script:
-  - !reference [.setup-ssh, before_script]
-  - ls -al
-  script:
-    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "mkdir -p $PROJECT_LOCATION/$PROJECT_NAME"
-    - scp -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -P $PROD_SERVER_SSH_PORT compose.yml $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS:$PROJECT_LOCATION/$PROJECT_NAME/compose.yml
-    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker network inspect $PROJECT_NETWORK > /dev/null 2>&1 || docker network create $PROJECT_NETWORK"
-    - ssh -o StrictHostKeyChecking=no -i $PROD_SERVER_SSH_KEY -p $PROD_SERVER_SSH_PORT $PROD_SERVER_USERNAME@$PROD_SERVER_ADDRESS "docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml down && docker compose -f $PROJECT_LOCATION/$PROJECT_NAME/compose.yml up -d"
-  rules:
-    - if: "$CI_COMMIT_BRANCH == 'main' && ($ENVIRONMENT == 'production' || $ENVIRONMENT == 'prod')"
-      when: manual
-    - when: never
+  TYPE: node
+  NAME: front-imc
