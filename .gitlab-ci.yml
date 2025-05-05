@@ -1,7 +1,7 @@
 include:
-  - project: bootcamp-devops7241002/pipelines/shared
+  - project: bootcamp-devops7241002/pipelines/shared/jobs
     file:
-      - jobs/.variables.yml
+      - .variables.yml
 
 debug:
   stage: .pre
