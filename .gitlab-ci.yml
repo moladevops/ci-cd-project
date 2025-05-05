@@ -1,17 +1,9 @@
+image: node:20
 include:
-  - project: bootcamp-devops7241002/pipelines/shared/jobs
+  - project: bootcamp-devops7241002/pipelines/shared
     file:
-      - .variables.yml
-
-debug:
-  stage: .pre
-  script:
-    - env
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-      when: on_success
-    - when: never
-
+      - jobs/.variables.yml
+      - jobs/.actions.yml
 build:
   stage: build
   before_script:
