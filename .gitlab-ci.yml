@@ -5,4 +5,6 @@ include:
       - jobs/.run.yml
 variables:
   TYPE: front
-  NAME: front-imc
+  PROJECT_NAME: front-imc
+  PROJECT_DESTINATION: localhost
+  PROJECT_DESTINATION_PORT: 81
