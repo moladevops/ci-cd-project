@@ -1,6 +1,6 @@
 
 include:
-  - project: bootcamp-devops7241002/pipelines/integration
+  - project: pipelines/integration
     file:
       - jobs/.run.yml
 variables:
