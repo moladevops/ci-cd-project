@@ -8,3 +8,4 @@ variables:
   PROJECT_NAME: front-imc
   PROJECT_DESTINATION: localhost
   PROJECT_DESTINATION_PORT: 81
+  ENVIRONMENT: prod
