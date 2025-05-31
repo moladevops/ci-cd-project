@@ -1,8 +1,0 @@
-include:
-  - project: pipelines/integration
-    file:
-      - jobs/.run.yml
-variables:
-  PROJECT_TYPE: front
-  PROJECT_NAME: front-imc
-  PROJECT_URL: ams.imc.chillo.fr 
