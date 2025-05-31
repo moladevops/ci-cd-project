@@ -1,5 +1,6 @@
 stages:
   - build
+  - package
 
 build:
   stage: build
@@ -8,6 +9,17 @@ build:
     - ls -al
   script:
     - npm run build
+  artifacts:
+    paths:
+      - dist
   after_script:
     - ls -al
     - ls -al dist
+    
+
+package:
+  stage: package
+  script:
+    - ls -al
+  needs:
+    - build
