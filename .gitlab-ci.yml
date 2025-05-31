@@ -6,20 +6,17 @@ build:
   stage: build
   before_script:
     - npm ci
-    - ls -al
   script:
     - npm run build
   artifacts:
     paths:
       - dist
-  after_script:
-    - ls -al
-    - ls -al dist
     
 
 package:
   stage: package
   script:
-    - ls -al
+    - CURRENT_VERSION=$(grep version package.json | sed -n 's|.*"version".*:.*"\(.*\)".*|\1|p')
+    - echo $CURRENT_VERSION
   needs:
     - build
