@@ -1,42 +1,7 @@
-stages:
-  - build
-  - package
-image: node:21
-build:
-  stage: build
-  before_script:
-    - npm ci
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - dist
+include:
+  - project: pipelines/integration
+    file:
+      - jobs/.run.yml
 variables:
-  VERSION_TYPE: 'patch'
-
-package:
-  stage: package
-  script:
-    - CURRENT_VERSION=$(grep version package.json | sed -n 's|.*"version".*:.*"\(.*\)".*|\1|p')
-    - echo $CURRENT_VERSION
-    - |
-        MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1)
-        MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
-        PATCH=$(echo $CURRENT_VERSION | cut -d. -f3)
-    - |
-        if [ VERSION_TYPE == 'major' ];
-        then
-          NEXT_VERSION=$((MAJOR+1)).0.0
-        fi
-        if [ VERSION_TYPE == 'minor' ];
-        then
-          NEXT_VERSION=$MAJOR.$((MINOR+1)).0
-        fi
-        if [ VERSION_TYPE == 'patch' ];
-        then
-          NEXT_VERSION=$MAJOR.$MINOR.$((PATCH+1))
-        fi
-    - echo $CURRENT_VERSION 
-    - echo $NEXT_VERSION
-  needs:
-    - build
+  PROJECT_NAME: front-imc
+  PROJECT_URL: ams.imc.chillo.fr 
