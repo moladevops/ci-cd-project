@@ -10,7 +10,7 @@ function App() {
   const readData = async (e) => {
     e.preventDefault();
     const taille = tailleRef.current.value;
-    const poids = tailleRef.current.value;
+    const poids = poidsRef.current.value;
     const name = nameRef.current.value;
     const email = emailRef.current.value;
 
