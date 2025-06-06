@@ -2,6 +2,7 @@ include:
   - project: pipelines/integration
     file:
       - jobs/.run.yml
+
 variables:
   PROJECT_NAME: front-imc
   PROJECT_URL: ams.imc.chillo.fr 
