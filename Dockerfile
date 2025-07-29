@@ -6,7 +6,10 @@ RUN npm build
 
 FROM nginx:1.27-alpine
 
+COPY --from=builder nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder dist /usr/share/nginx/html
 
-#FROM nginx:1.27-alpine
-#COPY dist /usr/share/nginx/html
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
