@@ -1,24 +1,37 @@
-# Stage 1: Build the React/Node application
-FROM node:20 as builder
+# Stage 1: Build the React app
+FROM node:18-alpine AS build
 WORKDIR /app
-COPY . .
-RUN npm ci
+
+# Leverage caching by installing dependencies first
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile
+
+# Copy the rest of the application code and build for production
+COPY . ./
 RUN npm run build
 
-# Stage 2: Serve with Nginx
-FROM nginx:1.27-alpine
+# Stage 2: Development environment
+FROM node:18-alpine AS development
+WORKDIR /app
 
-# Remove default config
-RUN rm /etc/nginx/conf.d/default.conf
+# Install dependencies again for development
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile
 
-# Copy custom Nginx config
-COPY --from=builder proxy.conf /etc/nginx/conf.d/default.conf
+# Copy the full source code
+COPY . ./
 
-# Copy build files
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Expose port for the development server
+EXPOSE 3000
+CMD ["npm", "start"]
 
-# Expose port 80
+# Stage 3: Production environment
+FROM nginx:alpine AS production
+
+# Copy the production build artifacts from the build stage
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/proxy.conf /etc/nginx/conf.d/default.conf
+
+# Expose the default NGINX port
 EXPOSE 80
-
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
