@@ -3,3 +3,4 @@
 
 # keep dist folder
 !/dist
+!/nginx.conf
