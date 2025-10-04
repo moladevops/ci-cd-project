@@ -1,4 +1,9 @@
+stage: 
+  -package
+
+
 build:
+  stage: build
   script:
     -echo "build"
     
@@ -7,14 +12,17 @@ test:
     -echo "test"
 
 package:
+  stage: package
   script:
     -echo "test"
     
 build image:
+  stage: package
   script:
     -echo "test"
 
 deploy:
+  stage: deploy
   script:
     -echo "test"
     
