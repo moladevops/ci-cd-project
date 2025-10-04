@@ -1,4 +1,6 @@
-stage: 
+image: node:21
+
+stages: 
   -build
   -test
   -package
@@ -7,11 +9,13 @@ stage:
 
 build:
   stage: build
-  image: node:21
+  
   script:
     - npm install
     - npm run build    
 test:
+  stage: test
+  
   script:
     -echo "test"
 
