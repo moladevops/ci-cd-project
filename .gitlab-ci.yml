@@ -8,8 +8,8 @@ stage:
 build:
   stage: build
   script:
-    -echo "build"
-    
+    - npm install
+    - npm run build    
 test:
   script:
     -echo "test"
