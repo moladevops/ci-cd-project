@@ -1,6 +1,6 @@
-# Ignore all
-*
+node_modules
+.git
+.github
+*.log
+dist
 
-# keep dist folder
-!/dist
-!/nginx.conf
