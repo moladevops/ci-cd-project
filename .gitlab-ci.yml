@@ -1,20 +1,31 @@
+stage: 
+  -build
+  -test
+  -package
+  -deploy
+
+
 build:
+  stage: build
   script:
-    -echo "build"
-    
+    - npm install
+    - npm run build    
 test:
   script:
     -echo "test"
 
 package:
+  stage: package
   script:
     -echo "test"
     
 build image:
+  stage: package
   script:
     -echo "test"
 
 deploy:
+  stage: deploy
   script:
     -echo "test"
     
