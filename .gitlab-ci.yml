@@ -1,5 +1,8 @@
 stage: 
+  -build
+  -test
   -package
+  -deploy
 
 
 build:
