@@ -13,7 +13,7 @@ jobs:
       image: node:20
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Install dependencies
       run: npm install
@@ -22,13 +22,13 @@ jobs:
       run: npm run build
     
     - name: Upload node_modules
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: node-modules
         path: node_modules/
     
     - name: Upload dist
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: dist
         path: dist/
@@ -37,13 +37,13 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:20
-    needs: build  # Attend que build soit terminé
+    needs: build
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Download node_modules
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: node-modules
         path: node_modules/
@@ -55,13 +55,13 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:20
-    needs: test  # Attend que test soit terminé
+    needs: test
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Download dependencies
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: node-modules
         path: node_modules/
@@ -73,18 +73,18 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:20
-    needs: package  # Attend que package soit terminé
+    needs: package
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: ls -la
 
   deploy:
     runs-on: ubuntu-latest
     container:
       image: node:20
-    needs: build-image  # Attend que build-image soit terminé
+    needs: build-image
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: ls -la
