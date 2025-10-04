@@ -17,21 +17,21 @@ test:
   stage: test
   
   script:
-    -echo "test"
+    - ls -la
 
 package:
   stage: package
   script:
-    -echo "test"
+    - ls -la
     
 build image:
   stage: package
   script:
-    -echo "test"
+    - ls -la
 
 deploy:
   stage: deploy
   script:
-    -echo "test"
+    - ls -la
     
     
