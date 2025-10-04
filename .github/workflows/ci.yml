@@ -1,0 +1,46 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, features/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:21
+    
+    steps:
+    - uses: actions/checkout@v3
+    - run: npm install
+    - run: npm run build
+    
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - run: ls -la
+
+  package:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/checkout@v3
+    - run: ls -la
+    
+  build-image:
+    runs-on: ubuntu-latest
+    needs: package
+    steps:
+    - uses: actions/checkout@v3
+    - run: ls -la
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-image
+    steps:
+    - uses: actions/checkout@v3
+    - run: ls -la
