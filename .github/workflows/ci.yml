@@ -85,10 +85,10 @@ jobs:
     
     - name: Build and push
       run: |
-        docker build -t moladevops/front-imc:${{ github.sha }} .
-        docker push moladevops/front-imc:${{ github.sha }}
-        docker tag moladevops/front-imc:${{ github.sha }} moladevops/front-imc:latest
-        docker push moladevops/front-imc:latest
+        docker build -t moladevops237/front-imc:${{ github.sha }} .
+        docker push moladevops237/front-imc:${{ github.sha }}
+        docker tag moladevops237/front-imc:${{ github.sha }} moladevops237/front-imc:latest
+        docker push moladevops237/front-imc:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -97,4 +97,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Deploy info
-      run: echo "Image moladevops/front-imc:${{ github.sha }} pushed to Docker Hub"
+      run: echo "Image moladevops237/front-imc:${{ github.sha }} pushed to Docker Hub"
