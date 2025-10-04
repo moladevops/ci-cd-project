@@ -72,13 +72,16 @@ jobs:
 
   build-image:
     runs-on: ubuntu-latest
-    container:
-      image: node:20
     needs: package
     
     steps:
     - uses: actions/checkout@v4
-    - run: ls -la
+    
+    - name: Build Docker image
+      run: docker build -t moladevops/front-imc:${{ github.sha }} .
+    
+    - name: List Docker images
+      run: docker images
 
   deploy:
     runs-on: ubuntu-latest
